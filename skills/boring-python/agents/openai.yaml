@@ -1,0 +1,4 @@
+interface:
+  display_name: "Boring Python"
+  short_description: "Explicit Python that reads as plainly as Go"
+  default_prompt: "Use $boring-python to write or simplify this Python code with explicit control flow, straightforward functions, and unchanged behavior."
