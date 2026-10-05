@@ -12,9 +12,50 @@ nills sync       # Pull committed updates, then refresh the links
 nills doctor     # Explain what is linked and what needs attention
 ```
 
-> **Status: design only.** This README describes the intended interface and
-> implementation plan. The CLI, Makefile, and configuration files below have not
-> been implemented yet. The skill listed below is included in the repository.
+> **Status:** The skills and local web library are implemented. The CLI, Makefile,
+> and profile configuration below describe the planned interface and have not
+> been implemented yet.
+
+## Browse the library
+
+A local web UI lets you search the collection, bookmark skills, read formatted
+guides, and follow links into their supporting files. It includes a source view,
+copyable starting prompts, light and dark themes, and a mobile layout.
+
+Requires [Bun](https://bun.sh/) and [Node.js](https://nodejs.org/) 22.12 or newer.
+From this checkout:
+
+```sh
+bun install
+bun run dev
+```
+
+Open the local URL printed by Vite, normally `http://127.0.0.1:5173`.
+Use `⌘K`, `Ctrl+K`, or `/` to focus search. Search includes guide and reference
+contents. Bookmarks and theme preferences stay in this browser.
+
+The catalog is generated from `skills/`; add or edit a skill and the development
+page reloads automatically. Display names and prompts come from the skill's
+`agents/openai.yaml` when present. An optional `metadata.category` in `SKILL.md`
+sets its discipline; otherwise the library infers one from its name and description.
+Hidden files and symlinks are excluded from the web catalog. Binary assets are
+listed without a text preview. Skill scripts are displayed as source, not executed.
+
+```sh
+bun run test            # Catalog discovery and document navigation
+bun run build           # Type checking and static production build into dist/
+bun run preview         # Serve the production build locally
+```
+
+The production build bundles the skill files and fonts and needs no backend or
+third-party requests to browse. Rebuild after changing skills. Static output can
+be hosted under a subdirectory. Each skill and supporting file has a shareable
+URL fragment. The library reads the collection; linking skills remains part of
+the planned CLI.
+
+For desktop and mobile browser checks, install Playwright Chromium once with
+`bunx playwright install chromium`, then run `bun run test:browser`. Alternatively,
+set `NILLS_CHROME_PATH` to an existing Chrome executable when running that command.
 
 ## The idea
 
@@ -40,9 +81,21 @@ doesn’t update another computer until you commit, push, and sync there.
 | Skill | Purpose |
 | --- | --- |
 | [boring-python](skills/boring-python/SKILL.md) | Write, refactor, and review Python using explicit control flow and straightforward code that a Go reader can follow. |
+| [asd-ste100](skills/asd-ste100/SKILL.md) | Clarify technical English using STE-inspired guidance while preserving facts, conditions, permissions, and uncertainty. |
+| [tigerstyle](skills/tigerstyle/SKILL.md) | Improve code with precise names, clear interfaces, explicit invariants, and deliberate resource limits, adapted to the project's language. |
 
-Includes [readability examples](skills/boring-python/references/readability-examples.md)
-and [Codex interface metadata](skills/boring-python/agents/openai.yaml).
+Each skill includes examples and Codex interface metadata:
+
+- **boring-python:** [readability examples](skills/boring-python/references/readability-examples.md)
+  and [interface metadata](skills/boring-python/agents/openai.yaml).
+- **asd-ste100:** [meaning-preservation examples](skills/asd-ste100/references/meaning-preservation.md)
+  and [interface metadata](skills/asd-ste100/agents/openai.yaml).
+  Adapted from [danyuchn/asd-ste100-skill](https://github.com/danyuchn/asd-ste100-skill)
+  with its [MIT notice](skills/asd-ste100/LICENSE).
+- **tigerstyle:** [application examples](skills/tigerstyle/references/application-examples.md)
+  and [interface metadata](skills/tigerstyle/agents/openai.yaml).
+  Inspired by [TigerStyle](https://tigerstyle.dev/) and
+  [TigerBeetle's original guide](https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md).
 
 ## Planned quick start
 

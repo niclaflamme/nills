@@ -1,0 +1,4 @@
+interface:
+  display_name: "TigerStyle"
+  short_description: "Precise names, clear contracts, deliberate limits"
+  default_prompt: "Use $tigerstyle to improve this code's naming, interfaces, and invariants while preserving behavior and recovery, following the project's language conventions, and avoiding program-terminating checks."
